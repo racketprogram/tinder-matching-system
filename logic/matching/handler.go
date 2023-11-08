@@ -2,6 +2,7 @@ package matching
 
 import (
 	"encoding/json"
+	"fmt"
 	"math"
 	"net/http"
 	"sync"
@@ -18,9 +19,9 @@ type Person struct {
 
 // MatchingSystem struct contains all single individuals and provides matching functionality.
 type MatchingSystem struct {
-	Users     map[int]*Person // Use a map to store user information for quick retrieval.
-	lastID    int             // Tracks the last assigned ID.
-	mu        sync.Mutex      // Mutex to protect the Users map.
+	Users  map[int]*Person // Use a map to store user information for quick retrieval.
+	lastID int             // Tracks the last assigned ID.
+	mu     sync.Mutex      // Mutex to protect the Users map.
 }
 
 // PersonRequest is the structure of the HTTP request body for adding a new user.
@@ -80,6 +81,8 @@ func (ms *MatchingSystem) AddSinglePersonAndMatchHandler(w http.ResponseWriter, 
 	// Call the function to add and find matches.
 	matches := ms.findMatches(newPerson, math.MaxInt)
 
+	fmt.Println(matches)
+
 	// Encode the match results into JSON and write to the response body.
 	if err := json.NewEncoder(w).Encode(matches); err != nil {
 		http.Error(w, "Failed to encode matches", http.StatusInternalServerError)
@@ -109,6 +112,8 @@ func (ms *MatchingSystem) QuerySinglePeople(w http.ResponseWriter, r *http.Reque
 	// Call the function to add and find matches.
 	matches := ms.findMatches(person, N)
 
+	fmt.Println(matches)
+
 	// Encode the match results into JSON and write to the response body.
 	if err := json.NewEncoder(w).Encode(matches); err != nil {
 		http.Error(w, "Failed to encode matches", http.StatusInternalServerError)
@@ -119,6 +124,7 @@ func (ms *MatchingSystem) QuerySinglePeople(w http.ResponseWriter, r *http.Reque
 func (ms *MatchingSystem) findMatches(person *Person, N int) []*Person {
 	var matches []*Person
 	for _, potentialMatch := range ms.Users {
+		fmt.Println(potentialMatch)
 		// Avoid matching with oneself.
 		if potentialMatch.ID == person.ID {
 			continue

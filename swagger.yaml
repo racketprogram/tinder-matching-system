@@ -140,3 +140,13 @@ definitions:
       wantedDates:
         type: integer
         format: int32
+
+
+curl -X POST http://localhost:8080/add_single_person_and_match \
+  -H "Content-Type: application/json" \
+  -d '{
+        "name": "jj",
+        "height": 160,
+        "gender": "female",
+        "wantedDates": 3
+      }'
