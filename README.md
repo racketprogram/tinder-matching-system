@@ -17,6 +17,13 @@ The Matching System simulates a simple matchmaking service, enabling users to fi
 - `POST /query_single_people`: Retrieve possible matches for a user.
 - `POST /remove_single_person`: Remove a user from the system.
 
+## API Documentation
+
+The `swagger.yaml` file contains the definitions and details of the Matching System API. For the complete API specifications, please refer to the Swagger documentation provided:
+
+- [View Swagger API Specification](swagger.yaml) (local link to the `swagger.yaml` file)
+- For more information about Swagger, visit the [Swagger Official Website](https://swagger.io/).
+
 ## Components
 
 - **HTTP Server**: Serves as the entry point for incoming HTTP requests, routing them to appropriate handlers.
