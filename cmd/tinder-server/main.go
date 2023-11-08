@@ -9,13 +9,12 @@ import (
 func main() {
 	ms := matching.NewMatchingSystem()
 
-	// 注册HTTP处理器
+	// Register HTTP handlers
 	http.HandleFunc("/add_single_person_and_match", ms.AddSinglePersonAndMatchHandler)
 	http.HandleFunc("/query_single_people", ms.QuerySinglePeople)
 	http.HandleFunc("/RemoveSinglePerson", ms.RemoveSinglePerson)
 
-
-	// 启动HTTP服务器
+	// Start the HTTP server
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
