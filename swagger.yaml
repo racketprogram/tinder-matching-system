@@ -1,0 +1,142 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: Matching System API
+  description: API for a matching system like Tinder.
+host: localhost:8080
+basePath: /
+schemes:
+  - http
+paths:
+  /add_single_person_and_match:
+    post:
+      summary: Add a new user and find matches
+      description: Adds a new user to the matching system and returns potential matches.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: person
+          description: Person to add
+          required: true
+          schema:
+            $ref: '#/definitions/PersonRequest'
+      responses:
+        200:
+          description: An array of matched persons
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Person'
+        400:
+          description: Invalid input
+  /query_single_people:
+    post:
+      summary: Find the most N possible matched single people
+      description: Finds the most N possible matched single people for a given user.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: query
+          description: Query request for single people
+          required: true
+          schema:
+            $ref: '#/definitions/QuerySinglePeopleRequest'
+      responses:
+        200:
+          description: An array of matched persons
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Person'
+        400:
+          description: User not found or invalid input
+  /remove_single_person:
+    post:
+      summary: Remove a single person
+      description: Removes a user from the matching system.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: remove
+          description: Request to remove a single person
+          required: true
+          schema:
+            $ref: '#/definitions/RemoveSinglePersonRequest'
+      responses:
+        200:
+          description: User removed successfully
+        400:
+          description: User not found or invalid input
+definitions:
+  PersonRequest:
+    type: object
+    required:
+      - name
+      - height
+      - gender
+      - wantedDates
+    properties:
+      name:
+        type: string
+      height:
+        type: integer
+        format: int32
+      gender:
+        type: string
+        enum:
+          - male
+          - female
+      wantedDates:
+        type: integer
+        format: int32
+  QuerySinglePeopleRequest:
+    type: object
+    required:
+      - id
+      - matchCount
+    properties:
+      id:
+        type: integer
+        format: int32
+      matchCount:
+        type: integer
+        format: int32
+  RemoveSinglePersonRequest:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+        format: int32
+  Person:
+    type: object
+    required:
+      - id
+      - name
+      - height
+      - gender
+      - wantedDates
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      height:
+        type: integer
+        format: int32
+      gender:
+        type: string
+      wantedDates:
+        type: integer
+        format: int32
